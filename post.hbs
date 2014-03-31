@@ -32,12 +32,13 @@
             <footer class="post-footer">
 
                 <section class="author">
+                    <img src="{{author.image}}">
                     <h4>{{author.name}}</h4>
                     <p>{{author.bio}}</p>
-                    <ul class="author-meta clearfix">
-                        {{#if author.location}}<li>{{author.location}}</li>{{/if}}
-                        {{#if author.website}}<li><a href="{{author.website}}">{{author.website}}</a></li>{{/if}}
-                    </ul>
+                    <p><i>
+                        {{#if author.location}}{{author.location}}</br>{{/if}}
+                        {{#if author.website}}<a href="{{author.website}}">{{author.website}}</a>{{/if}}
+                    </i></p>
                 </section>
 
                 <section class="share">
