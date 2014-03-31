@@ -538,7 +538,7 @@ margin on the iframe, cause it breaks stuff. */
     background-color: rgb(255, 255, 255);
     /* RGBa with 0.6 opacity */
     background-color: rgba(255, 255, 255, 0.6);
-    padding: 0 20px 0 20px;
+    padding: 20px 20px 20px 20px;
 }
 
 .post-title {
