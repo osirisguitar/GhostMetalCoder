@@ -165,10 +165,18 @@ html {
 body {
     height: 100%;
     max-height: 100%;
-    font-family: 'Noto Serif', serif;
+    font-family: 'Open Sans', serif;
     font-size: 2.0rem;
     line-height: 1.6em;
     color: #3A4145;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.index {
+    color: white;
 }
 
 ::-moz-selection {
@@ -456,8 +464,8 @@ margin on the iframe, cause it breaks stuff. */
     margin-bottom: 5rem;
     text-align: center;
     color: #fff;
-    background: #303538 no-repeat center center;
-    background-size: cover;
+    /*background: #303538 no-repeat center center;
+    background-size: cover;*/
 }
 
 .blog-logo {
@@ -481,6 +489,7 @@ margin on the iframe, cause it breaks stuff. */
     font-weight: bold;
     font-family: 'Open Sans', sans-serif;
     text-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    color:white;
 }
 
 .blog-description {
@@ -497,7 +506,7 @@ margin on the iframe, cause it breaks stuff. */
 .post {
     position: relative;
     width:80%;
-    max-width: 700px;
+    max-width: 1000px;
     margin: 4rem auto;
     padding-bottom: 4rem;
     border-bottom: #EBF2F6 1px solid;
@@ -522,6 +531,14 @@ margin on the iframe, cause it breaks stuff. */
     -moz-border-radius: 100%;
     border-radius: 100%;
     box-shadow: #fff 0 0 0 5px;
+}
+
+.post-wrapper {
+    /* Fallback for web browsers that don't support RGBa */
+    background-color: rgb(255, 255, 255);
+    /* RGBa with 0.6 opacity */
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0 20px 0 20px;
 }
 
 .post-title {
@@ -735,6 +752,15 @@ margin on the iframe, cause it breaks stuff. */
 .post-footer .share a:hover {
     color: #50585D;
 }
+
+body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index .post-content, .index .post-excerpt {
+    color:white;
+}
+
+.post-meta {
+    color:#222;
+}
+
 
 
 /* ==========================================================================
