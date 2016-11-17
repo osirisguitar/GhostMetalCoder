@@ -508,7 +508,8 @@ margin on the iframe, cause it breaks stuff. */
     width:80%;
     max-width: 1000px;
     margin: 4rem auto;
-    padding-bottom: 4rem;
+    padding: 2rem 4rem 4rem 4rem;
+    background-color: rgba(0,0,0,0.5);
     border-bottom: #EBF2F6 1px solid;
     word-break: break-word;
     hyphens: auto;
