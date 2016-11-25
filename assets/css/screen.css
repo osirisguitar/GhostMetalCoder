@@ -538,7 +538,7 @@ margin on the iframe, cause it breaks stuff. */
     /* Fallback for web browsers that don't support RGBa */
     background-color: rgb(255, 255, 255);
     /* RGBa with 0.6 opacity */
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px 20px 20px 20px;
 }
 
