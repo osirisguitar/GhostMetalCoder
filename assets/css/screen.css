@@ -1093,8 +1093,8 @@ body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index
         line-height: 1.6em;
     }
    
-    .article {
-       margin: 0;
+    .index article {
+       padding: 20px;
     }
    
     .site-head {
