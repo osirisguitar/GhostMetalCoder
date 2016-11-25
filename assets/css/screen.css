@@ -1085,12 +1085,16 @@ body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index
 
     .post {
         width:auto;
-        margin-left: 16px;
-        margin-right: 16px;
+        margin-left: 0px;
+        margin-right: 0px;
         font-size: 0.8em;
         line-height: 1.6em;
     }
-
+   
+    .article {
+       margin: 0;
+    }
+   
     .site-head {
         padding: 10% 0;
     }
