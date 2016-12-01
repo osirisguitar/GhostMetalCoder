@@ -1071,6 +1071,11 @@ body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index
 
 
 @media only screen and (max-width: 500px) {
+    html {
+      height: 100%;
+      max-height: 100%;
+      font-size: 55%;
+    }
 
     .blog-logo img {
         max-height: 80px;
