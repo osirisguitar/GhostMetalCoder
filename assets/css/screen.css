@@ -766,16 +766,16 @@ body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index
    6. Tag archive
    ========================================================================== */
 
-.archive-template .site-head {
+.paged .site-head {
     height: auto;
     padding-bottom: 5rem;
 }
 
-.archive-template .site-head a {
+.paged .site-head a {
     color: #fff;
 }
 
-.archive-template .blog-logo {
+.paged .blog-logo {
     display: block;
     margin-top: 5rem;
 }
@@ -806,7 +806,7 @@ body.index, .index .post-meta, .index .post-meta a, .index .post-title a, .index
     box-shadow: #fff 0 0 0 5px;
 }
 
-.archive-template .blog-title {
+.paged .blog-title {
     display: inline-block;
     padding: 2.5rem 0;
 }
