@@ -3310,8 +3310,16 @@ body.has-site-background::before {
     background: var(--mc-card-dark);
 }
 
-.tag-sidebar-title {
+.tag-sidebar-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
     margin: 0 0 12px;
+}
+
+.tag-sidebar-title {
+    margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -3320,6 +3328,7 @@ body.has-site-background::before {
 }
 
 .tag-sidebar-list {
+    position: relative; /* offset parent for tag-sidebar.js */
     margin: 0;
     padding: 0;
     list-style: none;
@@ -3379,21 +3388,51 @@ body.has-site-background::before {
     }
 }
 
+.tag-sidebar-toggle {
+    padding: 0;
+    font: inherit;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.tag-sidebar-toggle:hover {
+    color: #fff;
+}
+
+.tag-sidebar-toggle[hidden] {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .tag-sidebar-toggle {
+        display: none;
+    }
+}
+
 @media (max-width: 991px) {
-    /* Below the desktop breakpoint the tags become wrapping chips */
+    /* Below the desktop breakpoint: compact wrapping chips, collapsed to two
+       rows when JS has marked the list collapsible (tag-sidebar.js) */
     .posts.has-tag-sidebar > .tag-sidebar {
+        --chip-height: 26px;
+        --chip-gap: 6px;
         margin-top: max(4.8vmin, 36px);
-        padding: 14px 20px;
+        padding: 12px 16px;
     }
 
-    .tag-sidebar-title {
+    .tag-sidebar-header {
         margin-bottom: 8px;
     }
 
     .tag-sidebar-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: var(--chip-gap);
     }
 
     .tag-sidebar-list > li {
@@ -3401,9 +3440,24 @@ body.has-site-background::before {
     }
 
     .tag-sidebar-link {
+        align-items: center;
+        gap: 6px;
+        height: var(--chip-height); /* fixed, so two rows match the collapsed max-height */
         margin: 0;
+        padding: 0 8px;
+        font-size: 1.3rem;
+        line-height: 1;
         white-space: nowrap;
         background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tag-sidebar-count {
+        font-size: 1.1rem;
+    }
+
+    .tag-sidebar.is-collapsible:not(.is-expanded) .tag-sidebar-list {
+        max-height: calc(var(--chip-height) * 2 + var(--chip-gap));
+        overflow: hidden;
     }
 
     .has-tag-sidebar .post-feed {
@@ -3457,6 +3511,15 @@ body.has-site-background::before {
     margin: max(4vmin, 24px) auto 0;
     max-width: 1200px;
     background: var(--mc-card-light);
+}
+
+/* Larger screens: 30% less space between the panel edge and the text.
+   Margins are (panel - content) / 2; content = 30% + 504px makes them 70% of
+   Casper's (panel - 720px) / 2 at any panel width (864px text at 1200px). */
+@media (min-width: 992px) {
+    .has-site-background .article {
+        --content-width: calc(30% + 504px);
+    }
 }
 
 .has-site-background.page-template .article {
