@@ -3251,6 +3251,13 @@ body.has-site-background::before {
     }
 }
 
+/* Tag names are always shown in lowercase */
+.tag-sidebar-name,
+.post-card-primary-tag,
+.tag-template .post-card-large .post-card-title {
+    text-transform: lowercase;
+}
+
 /* Tag side navigation (partials/tag-sidebar.hbs) */
 .tag-sidebar {
     padding: 20px;
@@ -3314,10 +3321,6 @@ body.has-site-background::before {
     .posts.has-tag-sidebar > .tag-sidebar {
         grid-column: 1;
         grid-row: 1 / span 2;
-        position: sticky;
-        top: 24px;
-        max-height: calc(100vh - 48px);
-        overflow-y: auto;
         margin-top: max(4.8vmin, 36px); /* line up with the top of .post-feed */
     }
 
@@ -3332,7 +3335,7 @@ body.has-site-background::before {
 }
 
 @media (max-width: 991px) {
-    /* Below the desktop breakpoint the tags become a horizontally scrolling row */
+    /* Below the desktop breakpoint the tags become wrapping chips */
     .posts.has-tag-sidebar > .tag-sidebar {
         margin-top: max(4.8vmin, 36px);
         padding: 14px 20px;
@@ -3344,16 +3347,12 @@ body.has-site-background::before {
 
     .tag-sidebar-list {
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
-        overflow-x: auto;
-        margin: 0 -20px;
-        padding: 0 20px 4px;
-        scrollbar-width: thin;
     }
 
     .tag-sidebar-list > li {
-        flex-shrink: 0;
-        margin: 0; /* global "li + li" spacing would stagger the row */
+        margin: 0; /* global "li + li" spacing would stagger the rows */
     }
 
     .tag-sidebar-link {
