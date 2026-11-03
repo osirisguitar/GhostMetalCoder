@@ -1,78 +1,160 @@
 {{!< default}}
 
-{{! The comment above "< default" means - insert everything in this file into
-the {body} of the default.hbs template, which contains our header/footer. }}
+{{!-- The tag above means: insert everything in this file
+into the {body} tag of the default.hbs template --}}
 
-<main class="content" role="main">
 
-    <article class="{{post_class}}">
+{{#post}}
+{{!-- Everything inside the #post block pulls data from the post --}}
 
-        {{! Each post has the blog logo at the top, with a link back to the home page }}
-        <header class="post-header">
-            <a class="blog-logo" href="{{@site.url}}">
-                {{#if @site.logo}}
-                <img src="{{@site.logo}}" alt="Blog Logo" />
-                {{else}}
-                <span class="blog-title">{{@site.title}}</span>
-                {{/if}}
-            </a>
-        </header>
+<main id="site-main" class="site-main">
+<article class="article {{post_class}} {{#match @custom.post_image_style "Full"}}image-full{{else match @custom.post_image_style "=" "Small"}}image-small{{/match}}">
 
-        {{! Everything inside the #post tags pulls data from the post }}
-        {{#post}}
-        <div class="post-wrapper">
-            <span class="post-meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format='DD MMM YYYY'}}</time> {{tags prefix="on " separator=" | "}}</span>
+    <header class="article-header gh-canvas">
 
-            <h1 class="post-title">{{{title}}}</h1>
-
-            <section class="post-content">
-                {{content}}
-            </section>
-
-            <footer class="post-footer">
-
-                <section class="author">
-                    <img src="{{primary_author.profile_image}}">
-                    <h4>{{primary_author.name}}</h4>
-                    <p>{{primary_author.bio}}</p>
-                    <p><i>
-                        {{#if primary_author.location}}{{primary_author.location}}</br>{{/if}}
-                        {{#if primary_author.website}}<a href="{{primary_author.website}}">{{primary_author.website}}</a>{{/if}}
-                    </i></p>
-                </section>
-
-                <section class="share">
-                    <h4>Share this post</h4>
-                    <a class="icon-twitter" href="https://twitter.com/share?text={{encode title}}&amp;url={{url absolute="true"}}"
-                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <span class="hidden">Twitter</span>
-                    </a>
-                            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{url absolute="true"}}"
-                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                            <span class="hidden">Facebook</span>
-                        </a>
-                        <a class="icon-google-plus" href="https://plus.google.com/share?url={{url absolute="true"}}"
-                        onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                        <span class="hidden">Google+</span>
-                    </a>
-                </section>
-
-            </footer>
+        <div class="article-tag post-card-tags">
+            {{#primary_tag}}
+                <span class="post-card-primary-tag">
+                    <a href="{{url}}">{{name}}</a>
+                </span>
+            {{/primary_tag}}
+            {{#if featured}}
+                <span class="post-card-featured">{{> "icons/fire"}} {{t "Featured"}}</span>
+            {{/if}}
         </div>
-        {{/post}}
-        <div id="disqus_thread" class="post-wrapper"></div>
-        <script type="text/javascript">
-            var disqus_shortname = 'metalcoder'; // required: replace example with your forum shortname
-            var disqus_identifier = '{{post.id}}'; // make sure to use the post.id as an identifier, otherwise disqus will use the pages url per default, which might be problematic...
 
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </article>
+        <h1 class="article-title">{{title}}</h1>
+
+        {{#if custom_excerpt}}
+            <p class="article-excerpt">{{custom_excerpt}}</p>
+        {{/if}}
+
+        <div class="article-byline">
+        <section class="article-byline-content">
+
+            <ul class="author-list instapaper_ignore">
+                {{#foreach authors}}
+                <li class="author-list-item">
+                    {{#if profile_image}}
+                    <a href="{{url}}" class="author-avatar" aria-label="Read more of {{name}}">
+                        <img class="author-profile-image" src="{{img_url profile_image size="xs"}}" alt="{{name}}" loading="eager" />
+                    </a>
+                    {{else}}
+                    <a href="{{url}}" class="author-avatar author-profile-image" aria-label="Read more of {{name}}">{{> "icons/avatar"}}</a>
+                    {{/if}}
+                </li>
+                {{/foreach}}
+            </ul>
+
+            <div class="article-byline-meta">
+                <h4 class="author-name">{{authors}}</h4>
+                <div class="byline-meta-content">
+                    <time class="byline-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
+                    {{#if reading_time}}
+                        <span class="byline-reading-time"><span class="bull">&bull;</span> {{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+                    {{/if}}
+                </div>
+            </div>
+
+        </section>
+        <a href="#/share" class="gh-button gh-button-share">{{t "Share"}}</a>
+        </div>
+
+        {{#match @custom.post_image_style "!=" "Hidden"}}
+        {{#if feature_image}}
+            <figure class="article-image">
+                {{!-- This is a responsive image, it loads different sizes depending on device
+                https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 --}}
+                <img
+                    class="gh-feature-image"
+                    srcset="{{img_url feature_image size="s"}} 300w,
+                            {{img_url feature_image size="m"}} 600w,
+                            {{img_url feature_image size="l"}} 1000w,
+                            {{img_url feature_image size="xl"}} 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="{{img_url feature_image size="xl"}}"
+                    alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                    fetchpriority="high"
+                    loading="eager"
+                />
+                {{#if feature_image_caption}}
+                    <figcaption>{{feature_image_caption}}</figcaption>
+                {{/if}}
+            </figure>
+        {{/if}}
+        {{/match}}
+
+    </header>
+
+    <section class="gh-content gh-canvas">
+        {{content}}
+    </section>
+
+    {{#primary_author}}
+    <section class="article-author gh-canvas">
+        <div class="article-author-inner">
+            {{#if profile_image}}
+                <a href="{{url}}" class="article-author-image"><img src="{{img_url profile_image size="s"}}" alt="{{name}}" loading="lazy" /></a>
+            {{/if}}
+            <div class="article-author-content">
+                <h4 class="article-author-name"><a href="{{url}}">{{name}}</a></h4>
+                {{#if bio}}<p class="article-author-bio">{{bio}}</p>{{/if}}
+                {{#if location}}<p class="article-author-meta">{{location}}</p>{{/if}}
+                {{#if website}}<p class="article-author-meta"><a href="{{website}}" target="_blank" rel="noopener">{{website}}</a></p>{{/if}}
+            </div>
+        </div>
+    </section>
+    {{/primary_author}}
+
+    {{#if comments}}
+        <section class="article-comments gh-canvas">
+            {{comments}}
+        </section>
+    {{/if}}
+
+</article>
 </main>
+
+{{!-- A signup call to action is displayed here, unless viewed as a logged-in member --}}
+{{#if @site.members_enabled}}
+{{#unless @member}}
+{{#unless @site.comments_enabled}}
+{{#if access}}
+    <section class="footer-cta outer">
+        <div class="inner">
+            {{#if @custom.email_signup_text}}<h2 class="footer-cta-title">{{@custom.email_signup_text}}</h2>{{/if}}
+            <a class="footer-cta-button" href="#/portal" data-portal>
+                <div class="footer-cta-input">{{t "Enter your email"}}</div>
+                <span>{{t "Subscribe"}}</span>
+            </a>
+        </div>
+    </section>
+{{/if}}
+{{/unless}}
+{{/unless}}
+{{/if}}
+
+
+{{!-- Read more links, just above the footer --}}
+{{#if @custom.show_recent_posts_footer}}
+    {{!-- The {#get} helper below fetches some of the latest posts here
+    so that people have something else to read when they finish this one.
+
+    This query gets the latest 3 posts on the site, but adds a filter to
+    exclude the post we're currently on from being included. --}}
+    {{#get "posts" filter="id:-{{id}}" limit="3" as |more_posts|}}
+
+        {{#if more_posts}}
+            <aside class="read-more-wrap outer">
+                <div class="read-more inner">
+                    {{#foreach more_posts}}
+                        {{> "post-card"}}
+                    {{/foreach}}
+                </div>
+            </aside>
+        {{/if}}
+
+    {{/get}}
+{{/if}}
+
+{{/post}}

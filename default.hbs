@@ -1,55 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{@site.locale}}"{{#match @custom.color_scheme "Dark"}} class="dark-mode"{{else match @custom.color_scheme "Auto"}} class="auto-color"{{/match}}>
 <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MLVNSRS');</script>
-    <!-- End Google Tag Manager -->
-    {{! Document Settings }}
+
+    {{!-- Google Tag Manager - loaded from a file rather than inline so it works with a strict CSP --}}
+    <script src="{{asset "js/head/gtm.js"}}" async></script>
+
+    {{!-- Basic meta - advanced meta is output with {ghost_head} below --}}
+    <title>{{meta_title}}</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    {{! Page Meta }}
-    <title>{{meta_title}}</title>
-
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="shortcut icon" href="{{asset "favicon.ico"}}">
+    {{!-- Preload critical resources to reduce render-blocking --}}
+    <link rel="preload" as="style" href="{{asset "built/screen.css"}}" />
+    <link rel="preload" as="script" href="{{asset "built/casper.js"}}" />
 
-    {{! Styles'n'Scripts }}
-    <link rel="stylesheet" type="text/css" href="{{asset "css/screen.css"}}" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
-    
-    {{! Ghost outputs important style and meta data with this tag }}
+    {{!-- Theme assets - use the {asset} helper to reference styles & scripts,
+    this will take care of caching and cache-busting automatically --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" />
+
+    {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings,
+    it should always be the last tag before the closing head tag --}}
     {{ghost_head}}
-</head>
-<body class="{{body_class}}" {{#if @site.cover_image}}style="background: url({{@site.cover_image}}) no-repeat center center fixed; background-size: cover;"{{/if}}>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MLVNSRS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    {{! Everything else gets inserted here }}
-    {{{body}}}
 
-    <footer class="site-footer">
-        <a class="subscribe icon-feed" href="{{@site.url}}/rss/"><span class="tooltip">Subscribe!</span></a>
+</head>
+<body class="{{body_class}} is-head-{{#match @custom.navigation_layout "Logo on cover"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}{{#if @custom.show_publication_cover}} has-cover{{/if}}{{#if @site.cover_image}} has-site-background{{/if}}"{{#if @site.cover_image}} style="--site-background: url('{{img_url @site.cover_image size="xl"}}')"{{/if}}>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MLVNSRS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head outer{{#match @custom.header_style "Hidden"}} is-header-hidden{{/match}}">
+        <div class="gh-head-inner inner">
+            <div class="gh-head-brand">
+                <a class="gh-head-logo{{#unless @site.logo}} no-image{{/unless}}" href="{{@site.url}}">
+                    {{#if @site.logo}}
+                        <img src="{{@site.logo}}" alt="{{@site.title}}">
+                    {{else}}
+                        {{@site.title}}
+                    {{/if}}
+                </a>
+                <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                <button class="gh-burger" aria-label="Main Menu"></button>
+            </div>
+
+            <nav class="gh-head-menu">
+                {{navigation}}
+                {{#unless @site.members_enabled}}
+                    {{#match @custom.navigation_layout "Stacked"}}
+                        <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                    {{/match}}
+                {{/unless}}
+            </nav>
+
+            <div class="gh-head-actions">
+                {{#unless @site.members_enabled}}
+                    {{^match @custom.navigation_layout "Stacked"}}
+                        <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                    {{/match}}
+                {{else}}
+                    <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                    <div class="gh-head-members">
+                        {{#unless @member}}
+                            {{#unless @site.members_invite_only}}
+                                <a class="gh-head-link" href="#/portal/signin" data-portal="signin">{{t "Sign in"}}</a>
+                                <a class="gh-head-button" href="#/portal/signup" data-portal="signup">{{t "Subscribe"}}</a>
+                            {{else}}
+                                <a class="gh-head-button" href="#/portal/signin" data-portal="signin">{{t "Sign in"}}</a>
+                            {{/unless}}
+                        {{else}}
+                            <a class="gh-head-button" href="#/portal/account" data-portal="account">{{t "Account"}}</a>
+                        {{/unless}}
+                    </div>
+                {{/unless}}
+            </div>
+        </div>
+    </header>
+
+    <div class="site-content">
+        {{!-- All other templates get inserted here, index.hbs, post.hbs, etc --}}
+        {{{body}}}
+    </div>
+
+    {{!-- The global footer at the very bottom of the screen --}}
+    <footer class="site-footer outer">
         <div class="inner">
-             <section class="copyright">All content copyright <a href="{{@site.url}}/">{{@site.title}}</a> &copy; {{date format="YYYY"}} &bull; All rights reserved.</section>
-             <section class="poweredby">Proudly published with <a class="icon-ghost" href="https://ghost.org">Ghost</a></section>
-             <section>Background image by <a href="http://www.andreewallin.com">Andree Wallin</a></section>
+            <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
+            <div class="site-footer-center">
+                <div class="site-footer-social-links">
+                    {{#social_accounts @site}}
+                        <a href="{{href}}" target="_blank" rel="noopener" aria-label="{{name}}">
+                            {{#> (concat "icons/" type)}}
+                                {{!-- Fallback rendered when no per-platform icon partial exists --}}
+                                <span>{{name}}</span>
+                            {{/undefined}}
+                        </a>
+                    {{/social_accounts}}
+                </div>
+                <nav class="site-footer-nav">
+                    {{navigation type="secondary"}}
+                </nav>
+            </div>
+            <div class="gh-powered-by">
+                <a href="https://ghost.org/" target="_blank" rel="noopener">{{t "Powered by Ghost"}}</a>
+                <div class="site-footer-credit">Background image by <a href="https://www.andreewallin.com" target="_blank" rel="noopener">Andree Wallin</a></div>
+            </div>
         </div>
     </footer>
-    {{!-- jQuery needs to come before `{{ghost_foot}}` so that jQuery can be used in code injection --}}
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js" integrity="sha384-XxcvoeNF5V0ZfksTnV+bejnCsJjOOIzN6UVwF85WBsAnU3zeYh5bloN+L4WLgeNE" crossorigin="anonymous"></script>
-    {{! Ghost outputs important scripts and data with this tag }}
-    {{ghost_foot}}
 
-    {{! The main JavaScript file for Casper }}
-    <script type="text/javascript" src="{{asset "js/jquery.fitvids.js"}}"></script>
-    <script type="text/javascript" src="{{asset "js/index.js"}}"></script>
+</div>
+{{!-- /.viewport --}}
+
+{{#is "post, page"}}
+    {{> "lightbox"}}
+{{/is}}
+
+{{!-- Scripts - handle responsive videos, infinite scroll, floating headers, and galleries --}}
+<script src="{{asset "built/casper.js"}}" defer></script>
+
+{{!-- Ghost outputs required functional scripts with this tag - it should always be the last thing before the closing body tag --}}
+{{ghost_foot}}
 
 </body>
 </html>
