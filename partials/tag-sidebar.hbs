@@ -1,10 +1,11 @@
 {{!-- Metal Coder: side navigation listing every public tag that has posts.
 Included on the post listing pages (index.hbs, tag.hbs, author.hbs).
 Pass current_tag=tag.slug to highlight the tag being viewed.
-Ghost 6 caps {{#get}} at 100 results, so at most 100 tags are listed.
+Sorted by number of posts, then alphabetically. Ghost 6 caps {{#get}} at 100
+results, so at most the 100 most used tags are listed.
 Below the desktop breakpoint, assets/js/tag-sidebar.js collapses the list to
 two rows with a toggle (without JS the full list is shown). --}}
-{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="slug asc" as |sidebar_tags|}}
+{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="count.posts desc, slug asc" as |sidebar_tags|}}
 {{#if sidebar_tags}}
 <aside class="tag-sidebar" aria-label="Topics">
     <div class="tag-sidebar-header">
