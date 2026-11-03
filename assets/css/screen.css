@@ -20,6 +20,7 @@ production stylesheet in assets/built/screen.css
 10.  Site Footer
 11. Dark Mode
 12. Lightbox
+13. Metal Coder customizations
 
 */
 
@@ -3160,3 +3161,223 @@ file to add some of your own styles. Well, you've come to
 the right place. Onward!
 
  */
+
+
+/* 13. Metal Coder customizations
+/* ----------------------------------------------------------
+Everything specific to heavymetalcoder.com lives in this section
+so that merging new Casper releases stays painless.
+---------------------------------------------------------- */
+
+@font-face {
+    font-family: "Ailerons";
+    src: url("../fonts/ailerons-regular-webfont.woff2") format("woff2"),
+         url("../fonts/ailerons-regular-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --font-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+    --font-logo: "Ailerons", var(--font-sans);
+    --mc-card-dark: rgba(0, 0, 0, 0.55);
+    --mc-card-light: rgba(255, 255, 255, 0.9);
+}
+
+/* Full-page fixed background (the publication cover image).
+   A fixed pseudo-element is used instead of background-attachment: fixed,
+   which iOS Safari doesn't support. */
+body.has-site-background {
+    background: #111;
+}
+
+body.has-site-background::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--site-background) no-repeat center center;
+    background-size: cover;
+}
+
+/* Header & navigation */
+.has-site-background .site-header-content,
+.has-site-background.has-cover .site-header-content {
+    background: transparent;
+    color: #fff;
+}
+
+.has-site-background .site-title,
+.gh-head-logo.no-image {
+    font-family: var(--font-logo);
+    font-weight: normal;
+    letter-spacing: 0;
+}
+
+.has-site-background .site-title {
+    font-size: clamp(4.4rem, 11vw, 10rem) !important;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+.has-site-background .site-description {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.has-site-background:not(.home-template) .gh-head {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+}
+
+.has-site-background:not(.home-template) .gh-head-logo {
+    color: #fff;
+}
+
+/* Post feed: translucent dark cards with white text */
+.has-site-background .post-feed .post-card,
+.has-site-background .read-more .post-card {
+    padding: 20px;
+    background: var(--mc-card-dark);
+}
+
+.has-site-background .post-card-image-link {
+    margin: -20px -20px 20px;
+}
+
+.has-site-background .post-card-content-link,
+.has-site-background .post-card-title {
+    color: #fff;
+}
+
+.has-site-background .post-card-excerpt {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.has-site-background .post-card-tags,
+.has-site-background .post-card-meta {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.has-site-background .post-card-meta > * + *:not(script)::before {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.has-site-background .pagination,
+.has-site-background .pagination a,
+.has-site-background .pagination .page-number {
+    color: #fff;
+}
+
+/* Tag & author archive headers */
+.has-site-background :is(.tag-template, .author-template) .post-card-large .post-card-content-link,
+.has-site-background .author-header {
+    color: #fff;
+}
+
+/* Single post & page: content on a translucent light panel */
+.has-site-background .article {
+    margin: max(4vmin, 24px) auto 0;
+    max-width: 1200px;
+    background: var(--mc-card-light);
+}
+
+.has-site-background.page-template .article {
+    padding-bottom: max(8vmin, 48px);
+}
+
+.has-site-background .footer-cta {
+    margin: max(4vmin, 24px) auto 0;
+    max-width: 1200px;
+    padding-top: max(6vmin, 40px);
+    padding-bottom: max(6vmin, 40px);
+    color: #fff;
+    background: var(--mc-card-dark);
+}
+
+/* Author box below the post */
+.article-author {
+    margin-top: max(6vmin, 40px);
+}
+
+.article-author-inner {
+    display: flex;
+    gap: 20px;
+    padding-top: max(4vmin, 28px);
+    border-top: 1px solid var(--color-border);
+}
+
+.article-author-image {
+    flex-shrink: 0;
+}
+
+.article-author-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.article-author-name {
+    margin: 0 0 6px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.article-author-name a {
+    color: inherit;
+}
+
+.article-author-bio {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    line-height: 1.5;
+}
+
+.article-author-meta {
+    margin: 0;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--color-secondary-text);
+}
+
+@media (max-width: 500px) {
+    .article-author-inner {
+        flex-direction: column;
+    }
+}
+
+/* Footer */
+.has-site-background .site-footer {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.site-footer-credit {
+    margin-top: 6px;
+}
+
+.site-footer-credit a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* Dark colour scheme: dark panel instead of a light one */
+html.dark-mode .has-site-background .article {
+    background: rgba(21, 23, 25, 0.9);
+}
+
+html.dark-mode .article-author-inner {
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+    html.auto-color .has-site-background .article {
+        background: rgba(21, 23, 25, 0.9);
+    }
+
+    html.auto-color .article-author-inner {
+        border-top-color: rgba(255, 255, 255, 0.15);
+    }
+}

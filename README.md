@@ -1,92 +1,44 @@
-# Casper
+# METAL CODER
 
-A classic theme for [Ghost](http://github.com/tryghost/ghost/), originally the default theme. These days, our default theme is [Source](http://github.com/tryghost/source/)
+Ghost theme for https://www.heavymetalcoder.com
 
-This is the latest development version of Casper! If you're just looking to download the latest release, head over to the [releases](https://github.com/TryGhost/Casper/releases) page.
+Based on [Casper](https://github.com/TryGhost/Casper) by the Ghost Foundation (MIT licensed).
 
-&nbsp;
+## What's customized
 
-![screenshot-desktop](https://user-images.githubusercontent.com/1418797/183329195-8e8f2ee5-a473-4694-a813-a2575491209e.png)
+All site-specific styling is in section **13. Metal Coder customizations** at the end of `assets/css/screen.css`. Template changes are kept small:
 
-&nbsp;
+- `default.hbs`: the publication cover image as a full-page fixed background, Open Sans, Google Tag Manager (loaded from `assets/js/head/gtm.js` so no inline script is needed), and the background image credit in the footer
+- `index.hbs`: the cover image isn't rendered as a separate header image
+- `post.hbs`: an author box below each post
+- `package.json`: 20 posts per page, and sans-serif body text by default
+- `assets/fonts/`: Ailerons, the logo font
 
-# First time using a Ghost theme?
+Comments use Ghost's built-in commenting (Ghost Admin → Settings → Membership → Commenting).
 
-Ghost uses a simple templating language called [Handlebars](http://handlebarsjs.com/) for its themes.
+## Development
 
-This theme has lots of code comments to help explain what's going on just by reading the code. Once you feel comfortable with how everything works, we also have full [theme API documentation](https://ghost.org/docs/themes/) which explains every possible Handlebars helper and template.
-
-**The main files are:**
-
-- `default.hbs` - The parent template file, which includes your global header/footer
-- `index.hbs` - The main template to generate a list of posts, usually the home page
-- `post.hbs` - The template used to render individual posts
-- `page.hbs` - Used for individual pages
-- `tag.hbs` - Used for tag archives, eg. "all posts tagged with `news`"
-- `author.hbs` - Used for author archives, eg. "all posts written by Jamie"
-
-One neat trick is that you can also create custom one-off templates by adding the slug of a page to a template file. For example:
-
-- `page-about.hbs` - Custom template for an `/about/` page
-- `tag-news.hbs` - Custom template for `/tag/news/` archive
-- `author-ali.hbs` - Custom template for `/author/ali/` archive
-
-
-# Development
-
-Casper styles are compiled using Gulp/PostCSS to polyfill future CSS spec. You'll need [Node](https://nodejs.org/), [pnpm](https://pnpm.io/) and [Gulp](https://gulpjs.com) installed globally. After that, from the theme's root directory:
+You need [Node](https://nodejs.org/) and [pnpm](https://pnpm.io/).
 
 ```bash
-# install dependencies
 pnpm install
-
-# run development server
-pnpm dev
+pnpm dev      # build and watch for changes
+pnpm test     # build a zip in dist/ and validate it with gscan
+pnpm zip      # build dist/ghost-metal-coder.zip for upload
 ```
 
-Now you can edit `/assets/css/` files, which will be compiled to `/assets/built/` automatically.
+Built assets in `assets/built/` are committed, so rebuild before committing CSS/JS changes.
 
-The `zip` Gulp task packages the theme files into `dist/<theme-name>.zip`, which you can then upload to your site.
+## Pulling in new Casper releases
 
 ```bash
-# create .zip file
-pnpm zip
+git remote add upstream https://github.com/TryGhost/Casper.git   # once
+git fetch upstream tag v5.x.y --no-tags   # the Casper release to merge
+git merge v5.x.y
+pnpm install && pnpm zip    # rebuild assets/built/ and resolve conflicts there by rebuilding
 ```
 
-# Publishing a release
+## Copyright & License
 
-Releases are shipped in two steps. First bump the version — this updates `package.json` and creates the matching commit and `v<version>` git tag:
-
-```bash
-# pick one of: patch | minor | major (or an explicit version, e.g. 5.13.0)
-pnpm version minor
-```
-
-Then run `ship`, which checks the working tree is clean, pushes the commit and tag, and drafts the GitHub release from the changelog:
-
-```bash
-pnpm ship
-```
-
-> [!NOTE]
-> `pnpm version` must be run first — unlike the old `yarn version`, `pnpm version` is not interactive and `pnpm ship` no longer performs the bump itself.
-
-# PostCSS Features Used
-
-- Autoprefixer - Don't worry about writing browser prefixes of any kind, it's all done automatically with support for the latest 2 major versions of every browser.
-- [Color Mod](https://github.com/jonathantneal/postcss-color-mod-function)
-
-
-# SVG Icons
-
-Casper uses inline SVG icons, included via Handlebars partials. You can find all icons inside `/partials/icons`. To use an icon just include the name of the relevant file, eg. To include the SVG icon in `/partials/icons/rss.hbs` - use `{{> "icons/rss"}}`.
-
-You can add your own SVG icons in the same manner.
-
-# Translations
-
-Please see [@TryGhost/Themes/theme-translations/README.md](https://github.com/TryGhost/Themes/blob/main/packages/theme-translations/README.md) for how to build, edit, or contribute translations.
-
-# Copyright & License
-
-Copyright (c) 2013-2026 Ghost Foundation - Released under the [MIT license](LICENSE).
+Casper: Copyright (c) 2013-2026 Ghost Foundation, released under the [MIT license](LICENSE).
+Metal Coder customizations: Copyright (c) Anders Norrback Bornholm.

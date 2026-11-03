@@ -2,6 +2,9 @@
 <html lang="{{@site.locale}}"{{#match @custom.color_scheme "Dark"}} class="dark-mode"{{else match @custom.color_scheme "Auto"}} class="auto-color"{{/match}}>
 <head>
 
+    {{!-- Google Tag Manager - loaded from a file rather than inline so it works with a strict CSP --}}
+    <script src="{{asset "js/head/gtm.js"}}" async></script>
+
     {{!-- Basic meta - advanced meta is output with {ghost_head} below --}}
     <title>{{meta_title}}</title>
     <meta charset="utf-8" />
@@ -16,13 +19,17 @@
     {{!-- Theme assets - use the {asset} helper to reference styles & scripts,
     this will take care of caching and cache-busting automatically --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" />
 
     {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings,
     it should always be the last tag before the closing head tag --}}
     {{ghost_head}}
 
 </head>
-<body class="{{body_class}} is-head-{{#match @custom.navigation_layout "Logo on cover"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}{{#if @custom.show_publication_cover}} has-cover{{/if}}">
+<body class="{{body_class}} is-head-{{#match @custom.navigation_layout "Logo on cover"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}{{#if @custom.show_publication_cover}} has-cover{{/if}}{{#if @site.cover_image}} has-site-background{{/if}}"{{#if @site.cover_image}} style="--site-background: url('{{img_url @site.cover_image size="xl"}}')"{{/if}}>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MLVNSRS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="viewport">
 
     <header id="gh-head" class="gh-head outer{{#match @custom.header_style "Hidden"}} is-header-hidden{{/match}}">
@@ -96,7 +103,10 @@
                     {{navigation type="secondary"}}
                 </nav>
             </div>
-            <div class="gh-powered-by"><a href="https://ghost.org/" target="_blank" rel="noopener">{{t "Powered by Ghost"}}</a></div>
+            <div class="gh-powered-by">
+                <a href="https://ghost.org/" target="_blank" rel="noopener">{{t "Powered by Ghost"}}</a>
+                <div class="site-footer-credit">Background image by <a href="https://www.andreewallin.com" target="_blank" rel="noopener">Andree Wallin</a></div>
+            </div>
         </div>
     </footer>
 

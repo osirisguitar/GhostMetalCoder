@@ -90,6 +90,22 @@ into the {body} tag of the default.hbs template --}}
         {{content}}
     </section>
 
+    {{#primary_author}}
+    <section class="article-author gh-canvas">
+        <div class="article-author-inner">
+            {{#if profile_image}}
+                <a href="{{url}}" class="article-author-image"><img src="{{img_url profile_image size="s"}}" alt="{{name}}" loading="lazy" /></a>
+            {{/if}}
+            <div class="article-author-content">
+                <h4 class="article-author-name"><a href="{{url}}">{{name}}</a></h4>
+                {{#if bio}}<p class="article-author-bio">{{bio}}</p>{{/if}}
+                {{#if location}}<p class="article-author-meta">{{location}}</p>{{/if}}
+                {{#if website}}<p class="article-author-meta"><a href="{{website}}" target="_blank" rel="noopener">{{website}}</a></p>{{/if}}
+            </div>
+        </div>
+    </section>
+    {{/primary_author}}
+
     {{#if comments}}
         <section class="article-comments gh-canvas">
             {{comments}}

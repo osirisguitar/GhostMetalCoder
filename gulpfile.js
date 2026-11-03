@@ -22,8 +22,8 @@ const easyimport = require('postcss-easy-import');
 // translations support
 const { mergeLocales } = require('@tryghost/theme-translations/build');
 
-const REPO = 'TryGhost/Casper';
-const REPO_READONLY = 'TryGhost/Casper';
+const REPO = 'osirisguitar/GhostMetalCoder';
+const REPO_READONLY = 'osirisguitar/GhostMetalCoder';
 const CHANGELOG_PATH = path.join(process.cwd(), '.', 'changelog.md');
 
 function serve(done) {
@@ -89,7 +89,7 @@ function zipper(done) {
             '!AGENTS.md',
             '!CLAUDE.md',
             '!gulpfile.js'
-        ]),
+        ], {encoding: false}), // gulp 5 decodes as UTF-8 by default, which corrupts fonts and images
         zip(filename),
         dest('dist/')
     ], handleError(done));
