@@ -3182,7 +3182,7 @@ so that merging new Casper releases stays painless.
     --font-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
     --font-logo: "Ailerons", var(--font-sans);
     --mc-card-dark: rgba(0, 0, 0, 0.55);
-    --mc-card-light: rgba(255, 255, 255, 0.9);
+    --mc-card-light: rgba(255, 255, 255, 0.75);
 }
 
 /* Full-page fixed background (the publication cover image).
@@ -3253,9 +3253,54 @@ body.has-site-background::before {
 
 /* Tag names are always shown in lowercase */
 .tag-sidebar-name,
-.post-card-primary-tag,
+.post-card-tag,
 .tag-template .post-card-large .post-card-title {
     text-transform: lowercase;
+}
+
+/* Post tags: post pages show every tag and wrap; post cards show only the
+   tags that fit on one line. Overflowing tags wrap onto a second line that is
+   clipped away, so a tag is never cut off halfway.
+
+   Separators: every item sits 18px from the previous one with a dot centred in
+   that gap. The row is shifted 18px left and clipped by the same amount, so the
+   gap and dot in front of whichever item starts a line are cut off. */
+.post-card-tags {
+    --tag-gap: 18px;
+    flex-wrap: wrap;
+    column-gap: 0;
+    row-gap: 6px;
+    margin-left: calc(var(--tag-gap) * -1);
+    clip-path: inset(-0.5em 0 -0.5em var(--tag-gap)); /* vertical slack keeps descenders */
+}
+
+.post-card-tags > * {
+    position: relative;
+    margin-left: var(--tag-gap);
+}
+
+.post-card-tags > * + .post-card-tag::before {
+    content: "·";
+    position: absolute;
+    left: calc(var(--tag-gap) / -2);
+    transform: translateX(-50%);
+    opacity: 0.6;
+}
+
+.post-card .post-card-tags {
+    line-height: 1.3;
+    height: 1.3em; /* exactly one line, with room for descenders */
+    overflow: hidden;
+}
+
+.article-tag {
+    line-height: 1.3;
+}
+
+/* Darker tags on the light post panel (the dark colour scheme keeps Casper's) */
+.has-site-background .article-tag,
+.has-site-background .article-tag a {
+    color: rgba(21, 23, 26, 0.7);
 }
 
 /* Tag side navigation (partials/tag-sidebar.hbs) */
@@ -3495,7 +3540,7 @@ body.has-site-background::before {
 
 /* Dark colour scheme: dark panel instead of a light one */
 html.dark-mode .has-site-background .article {
-    background: rgba(21, 23, 25, 0.9);
+    background: rgba(21, 23, 25, 0.75);
 }
 
 html.dark-mode .article-author-inner {
@@ -3504,7 +3549,7 @@ html.dark-mode .article-author-inner {
 
 @media (prefers-color-scheme: dark) {
     html.auto-color .has-site-background .article {
-        background: rgba(21, 23, 25, 0.9);
+        background: rgba(21, 23, 25, 0.75);
     }
 
     html.auto-color .article-author-inner {
