@@ -1,0 +1,23 @@
+{{!-- Metal Coder: side navigation listing every public tag that has posts.
+Included on the post listing pages (index.hbs, tag.hbs, author.hbs).
+Pass current_tag=tag.slug to highlight the tag being viewed.
+Ghost 6 caps {{#get}} at 100 results, so at most 100 tags are listed. --}}
+{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="slug asc" as |sidebar_tags|}}
+{{#if sidebar_tags}}
+<aside class="tag-sidebar" aria-label="Tags">
+    <h2 class="tag-sidebar-title">Tags</h2>
+    <ul class="tag-sidebar-list">
+        {{#foreach sidebar_tags}}
+            {{#if count.posts}}
+            <li>
+                <a class="tag-sidebar-link{{#match slug ../../current_tag}} is-current{{/match}}" href="{{url}}"{{#match slug ../../current_tag}} aria-current="page"{{/match}}>
+                    <span class="tag-sidebar-name">{{name}}</span>
+                    <span class="tag-sidebar-count">{{count.posts}}</span>
+                </a>
+            </li>
+            {{/if}}
+        {{/foreach}}
+    </ul>
+</aside>
+{{/if}}
+{{/get}}

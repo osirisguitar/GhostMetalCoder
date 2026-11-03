@@ -26,7 +26,10 @@ into the {body} of the default.hbs template --}}
 
 {{!-- The main content area --}}
 <main id="site-main" class="site-main outer">
-<div class="inner posts">
+<div class="inner posts has-tag-sidebar">
+
+    {{> "tag-sidebar"}}
+
 
     <div class="post-feed">
         {{#foreach posts}}

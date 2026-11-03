@@ -3236,6 +3236,137 @@ body.has-site-background::before {
     color: #fff;
 }
 
+/* Homepage header: half of Casper's default space above and below the logo.
+   Casper: top = 19vmin + 44px (nav is 88px tall), bottom = 19vmin, min-height 560px. */
+.has-site-background.home-template .site-header-content:not(.left-aligned) {
+    min-height: 0;
+    padding-top: calc(9.5vmin + 66px);
+    padding-bottom: calc(9.5vmin - 18px);
+}
+
+@media (max-width: 767px) {
+    /* The nav is 64px tall here; Casper: top = 19vmin + 32px */
+    .has-site-background.home-template .site-header-content:not(.left-aligned) {
+        padding-top: calc(9.5vmin + 48px);
+    }
+}
+
+/* Tag side navigation (partials/tag-sidebar.hbs) */
+.tag-sidebar {
+    padding: 20px;
+    color: #fff;
+    background: var(--mc-card-dark);
+}
+
+.tag-sidebar-title {
+    margin: 0 0 12px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tag-sidebar-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tag-sidebar-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 10px;
+    margin: 0 -10px;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.tag-sidebar-link:hover {
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.tag-sidebar-link.is-current {
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.tag-sidebar-count {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 992px) {
+    .posts.has-tag-sidebar {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        column-gap: 4vmin;
+        align-items: start;
+    }
+
+    .posts.has-tag-sidebar > .tag-sidebar {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        position: sticky;
+        top: 24px;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+        margin-top: max(4.8vmin, 36px); /* line up with the top of .post-feed */
+    }
+
+    /* Casper adds 4vmin above the feed on tag and author pages */
+    :is(.tag-template, .author-template) .posts.has-tag-sidebar > .tag-sidebar {
+        margin-top: calc(4vmin + max(4.8vmin, 36px));
+    }
+
+    .posts.has-tag-sidebar > :not(.tag-sidebar) {
+        grid-column: 2;
+    }
+}
+
+@media (max-width: 991px) {
+    /* Below the desktop breakpoint the tags become a horizontally scrolling row */
+    .posts.has-tag-sidebar > .tag-sidebar {
+        margin-top: max(4.8vmin, 36px);
+        padding: 14px 20px;
+    }
+
+    .tag-sidebar-title {
+        margin-bottom: 8px;
+    }
+
+    .tag-sidebar-list {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 0 20px 4px;
+        scrollbar-width: thin;
+    }
+
+    .tag-sidebar-list > li {
+        flex-shrink: 0;
+        margin: 0; /* global "li + li" spacing would stagger the row */
+    }
+
+    .tag-sidebar-link {
+        margin: 0;
+        white-space: nowrap;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .has-tag-sidebar .post-feed {
+        padding-top: 24px;
+    }
+}
+
 /* Post feed: translucent dark cards with white text */
 .has-site-background .post-feed .post-card,
 .has-site-background .read-more .post-card {

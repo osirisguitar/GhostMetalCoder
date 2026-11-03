@@ -2,7 +2,10 @@
 {{!-- The tag above means - insert everything in this file into the {body} of the default.hbs template --}}
 
 <main id="site-main" class="site-main outer">
-<div class="inner posts">
+<div class="inner posts has-tag-sidebar">
+
+    {{> "tag-sidebar" current_tag=tag.slug}}
+
     <div class="post-feed">
 
         {{#tag}}
